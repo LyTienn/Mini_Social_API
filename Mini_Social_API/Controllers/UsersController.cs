@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Mini_Social_API.Dtos;
 using Mini_Social_API.Services;
-using Mini_Social_API.Models;
 
 namespace Mini_Social_API.Controllers 
 {
@@ -14,15 +14,15 @@ namespace Mini_Social_API.Controllers
 			_userService = userService;
 		}
 		[HttpGet]
-		public async Task<ActionResult<List<User>>> GetUsers() 
+		public async Task<ActionResult<List<UserResponseDto>>> GetUsers() 
 		{
 			var users = await _userService.GetAllAsync();
 			return Ok(users);
 		}
 		[HttpPost]
-		public async Task<ActionResult<User>> CreateUser(User user)
+		public async Task<ActionResult<UserResponseDto>> CreateUser(CreateUserDto dto)
 		{
-			var createdUser = await _userService.CreateAsync(user);
+			var createdUser = await _userService.CreateAsync(dto);
 			return CreatedAtAction(nameof(GetUsers), new { id = createdUser.Id }, createdUser);
 		}
 	}
