@@ -1,8 +1,8 @@
-using Mini_Social_API.Dtos;
-using Mini_Social_API.Models;
-using Mini_Social_API.Repositories;
+using Mini_Social_API.Application.Dtos;
+using Mini_Social_API.Application.Interfaces;
+using Mini_Social_API.Domain.Entities;
 
-namespace Mini_Social_API.Services
+namespace Mini_Social_API.Application.Services
 {
     public class UserService : IUserService
     {
@@ -37,14 +37,16 @@ namespace Mini_Social_API.Services
             {
                 throw new Exception("Password is required.");
             }
+
             var user = new User
             {
                 Username = dto.Username,
                 Email = dto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password), 
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
                 AvatarUrl = dto.AvatarUrl,
                 CreatedAt = DateTime.UtcNow
             };
+
             var createdUser = await _userRepository.CreateAsync(user);
 
             return new UserResponseDto
