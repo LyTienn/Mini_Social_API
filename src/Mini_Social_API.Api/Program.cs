@@ -3,6 +3,7 @@ using Mini_Social_API.Application.Interfaces;
 using Mini_Social_API.Application.Services;
 using Mini_Social_API.Infrastructure.Data;
 using Mini_Social_API.Infrastructure.Repositories;
+using FluentValidation.AspNetCore;
 
 namespace Mini_Social_API.Api
 {
@@ -28,6 +29,9 @@ namespace Mini_Social_API.Api
 
             // Register Application Services
             builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Mini_Social_API.Application.Validators.CreateUserDtoValidator>());
 
             var app = builder.Build();
 
